@@ -103,4 +103,24 @@ public class BlahMeBusinessTest extends UnitTestBase {
 
         latch.await();
     }
+
+    @Test
+    public void testSearch() throws Exception {
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        BlahMeBusiness business = new BlahMeBusiness();
+        business.searchByAuthor("阿加莎", 0, new BusinessCallback<Pair<List<Book>, Integer>, String>() {
+            @Override
+            public void onSuccess(Pair<List<Book>, Integer> data) {
+                latch.countDown();
+            }
+
+            @Override
+            public void onError(String error) {
+                latch.countDown();
+            }
+        });
+
+        latch.await();
+    }
 }

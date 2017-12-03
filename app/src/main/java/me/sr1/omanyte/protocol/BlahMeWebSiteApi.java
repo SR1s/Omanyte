@@ -28,18 +28,6 @@ public interface BlahMeWebSiteApi {
     @GET("/fragment/{bookId}/tocs/")
     Call<ResponseBody> getCatalogOfBook(@Path("bookId") String bookId);
 
-    // todo
-    @GET("/")
-    Call<ResponseBody> search(String keyword);
-
-    // todo
-    @GET("/")
-    Call<ResponseBody> getUpdateRecord();
-
-    // todo
-    @GET("/")
-    Call<ResponseBody> about();
-
-
-
+    @GET("/search")
+    Call<ResponseBody> search(@Query("q") String keyword, @Query("p") int page);
 }

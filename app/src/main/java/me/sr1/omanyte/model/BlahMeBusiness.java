@@ -308,6 +308,68 @@ public class BlahMeBusiness {
         });
     }
 
+    public void search(String keyword, int page, final BusinessCallback<Pair<List<Book>, Integer>, String> callback) {
+        // 对外保持从0开始，符合编码习惯
+        // 对内转成从1开始，兼容网站的api
+        page += 1;
+
+        mBlahMeWebSiteApi.search(keyword, page).enqueue(new SimpleCallback() {
+            @Override
+            void onSuccess(Call<ResponseBody> call, ResponseBody body) {
+                LogUtil.i(TAG, "request=" + call.request());
+                try {
+                    HtmlCleaner htmlCleaner = new HtmlCleaner();
+
+                    TagNode root = htmlCleaner.clean(body.byteStream());
+
+                    Object[] searchResultDoms = root.evaluateXPath("//div[@class='ok-book-desc']");
+
+                    List<Book> bookList = new ArrayList<>();
+                    for (Object searchResultDom : searchResultDoms) {
+                        TagNode searchResultNode = (TagNode) searchResultDom;
+
+                        Object[] bookInfoDoms = searchResultNode.evaluateXPath("//a[@data-book-id]");
+                        TagNode bookInfoNode = (TagNode) bookInfoDoms[0];
+                        String id = bookInfoNode.getAttributeByName("data-book-id");
+                        String title = bookInfoNode.getAttributeByName("data-book-title");
+
+                        Object[] authorInfoDoms = searchResultNode.evaluateXPath("//div[@class='ok-book-author']");
+                        String author = ((TagNode) authorInfoDoms[0]).getText().toString().trim();
+
+                        bookList.add(new Book(id, title, author));
+                    }
+
+                    Object[] pages = root.evaluateXPath("//ul[@class='pagination ok-book-list-init']/li[last()]/a");
+                    int totalPage = 0;
+                    TagNode page = (TagNode) pages[0];
+                    String pageStr = page.getAttributeByName("data-page");
+                    totalPage = Integer.parseInt(pageStr);
+
+                    callback.onSuccess(new Pair<>(bookList, totalPage));
+                    LogUtil.i(TAG, "totalPage=" + totalPage + ", search result=" + bookList);
+
+                } catch (IOException | XPatherException e) {
+                    onError(call, body, e);
+                }
+            }
+
+            @Override
+            void onError(Call<ResponseBody> call, ResponseBody body, Throwable throwable) {
+                callback.onError("失败了诶");
+            }
+        });
+    }
+
+    public void searchBySubject(String subject, int page, BusinessCallback<Pair<List<Book>, Integer>, String> callback) {
+        String keyword = "subjects:" + subject;
+        search(keyword, page, callback);
+    }
+
+    public void searchByAuthor(String author, int page, BusinessCallback<Pair<List<Book>, Integer>, String> callback) {
+        String keyword = "author:" + author;
+        search(keyword, page, callback);
+    }
+
     private abstract static class SimpleCallback implements Callback<ResponseBody> {
 
         @Override
