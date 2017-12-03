@@ -26,7 +26,16 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:26.1.0'
+
     testImplementation 'junit:junit:4.12'
+    testCompile 'org.robolectric:robolectric:3.3.2'
+
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    // Network Framework
+    def retrofitVersion = "2.3.0"
+    compile "com.squareup.retrofit2:retrofit:{$retrofitVersion}"
+    compile "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
+    compile 'com.google.code.gson:gson:2.8.2'
 }
