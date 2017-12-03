@@ -41,4 +41,12 @@ public class Book {
         return OmanyteApp.BASE_URL + "/download/ebook/" + Id + "/epub";
     }
 
+    @Override
+    public String toString() {
+        return "Book{" +
+                "Id='" + Id + '\'' +
+                ", Title='" + Title + '\'' +
+                ", Author='" + Author + '\'' +
+                '}';
+    }
 }

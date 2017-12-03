@@ -16,16 +16,18 @@ public interface BlahMeWebSiteApi {
     @GET("/")
     Call<ResponseBody> getBooks(@Query("p") int page);
 
-    // todo
     @GET("/category/{categoryId}")
     Call<ResponseBody> getCategoryBooks(@Path("categoryId") String categoryId, @Query("p") int page);
 
     @GET("/")
     Call<ResponseBody> getCategories();
 
+    @GET("/book/{bookId}")
+    Call<ResponseBody> getBookDetail(@Path("bookId") String bookId);
+
     // todo
-    @GET("/")
-    Call<ResponseBody> getBook(String id);
+    @GET("/fragment/{bookId}/tocs/")
+    Call<ResponseBody> getCatalogOfBook(String bookId);
 
     // todo
     @GET("/")

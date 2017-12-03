@@ -24,6 +24,7 @@ import javax.xml.xpath.XPathFactory;
 import me.sr1.omanyte.OmanyteApp;
 import me.sr1.omanyte.base.util.LogUtil;
 import me.sr1.omanyte.enity.Book;
+import me.sr1.omanyte.enity.BookDetail;
 import me.sr1.omanyte.enity.Category;
 import me.sr1.omanyte.protocol.BlahMeWebSiteApi;
 import okhttp3.ResponseBody;
@@ -170,7 +171,7 @@ public class BlahMeBusiness {
             void onSuccess(Call<ResponseBody> call, ResponseBody body) {
 
                 HtmlCleaner htmlCleaner = new HtmlCleaner();
-                CleanerProperties properties = new CleanerProperties();
+                CleanerProperties properties = htmlCleaner.getProperties();
                 properties.setAllowMultiWordAttributes(true);
                 properties.setAllowHtmlInsideAttributes(true);
                 properties.setAllowInvalidAttributeNames(true);
@@ -214,6 +215,59 @@ public class BlahMeBusiness {
             @Override
             void onError(Call<ResponseBody> call, ResponseBody body, Throwable throwable) {
                 callback.onError("");
+            }
+        });
+    }
+
+    public void loadBookDetail(String bookId, final BusinessCallback<BookDetail, String> callback) {
+        mBlahMeWebSiteApi.getBookDetail(bookId).enqueue(new SimpleCallback() {
+            @Override
+            void onSuccess(Call<ResponseBody> call, ResponseBody body) {
+                HtmlCleaner htmlCleaner = new HtmlCleaner();
+                CleanerProperties properties = htmlCleaner.getProperties();
+                properties.setAllowMultiWordAttributes(true);
+                properties.setAllowHtmlInsideAttributes(true);
+                properties.setAllowInvalidAttributeNames(true);
+                properties.setOmitComments(true);
+
+                try {
+
+                    TagNode root = htmlCleaner.clean(body.byteStream());
+
+                    Object[] descriptionDoms = root.evaluateXPath("//div[@itemprop='description']");
+                    String description = ((TagNode) descriptionDoms[0]).getText().toString().trim();
+
+                    LogUtil.i(TAG, "description: " + description);
+
+                    Object[] bookInfoDoms = root.evaluateXPath("//div[@id='okBookShow']");
+                    TagNode bookInfoDom = (TagNode) bookInfoDoms[0];
+                    String title = bookInfoDom.getAttributeByName("data-book-title");
+                    String id = bookInfoDom.getAttributeByName("data-book-id");
+
+                    Object[] authorDoms = root.evaluateXPath("//a[@itemprop='author']");
+                    String author = ((TagNode) authorDoms[0]).getText().toString().trim();
+
+                    List<String> subjectList = new ArrayList<>();
+                    Object[] subjectDoms = root.evaluateXPath("//a[@itemprop='keywords']");
+                    for (Object subjectDom : subjectDoms) {
+                        subjectList.add(((TagNode) subjectDom).getText().toString());
+                    }
+
+                    Book book = new Book(id, title, author);
+                    BookDetail bookDetail = new BookDetail(book, description, null, subjectList);
+
+                    LogUtil.i(TAG, "BookDetail=" + bookDetail);
+                    callback.onSuccess(bookDetail);
+
+                } catch (IOException | XPatherException e) {
+                    LogUtil.w(TAG, "clean html error", e);
+                    onError(call, body, e);
+                }
+            }
+
+            @Override
+            void onError(Call<ResponseBody> call, ResponseBody body, Throwable throwable) {
+                callback.onError("error");
             }
         });
     }

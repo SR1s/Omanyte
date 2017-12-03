@@ -10,6 +10,7 @@ import java.util.concurrent.CountDownLatch;
 import me.sr1.omanyte.base.util.LogUtil;
 import me.sr1.omanyte.base.util.UnitTestBase;
 import me.sr1.omanyte.enity.Book;
+import me.sr1.omanyte.enity.BookDetail;
 import me.sr1.omanyte.enity.Category;
 
 /**
@@ -74,6 +75,28 @@ public class BlahMeBusinessTest extends UnitTestBase {
 
             @Override
             public void onError(String error) {
+                latch.countDown();
+            }
+        });
+
+        latch.await();
+    }
+
+    @Test
+    public void testGetBookDetail() throws Exception {
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        BlahMeBusiness business = new BlahMeBusiness();
+        business.loadBookDetail("2293", new BusinessCallback<BookDetail, String>() {
+            @Override
+            public void onSuccess(BookDetail data) {
+
+                latch.countDown();
+            }
+
+            @Override
+            public void onError(String error) {
+
                 latch.countDown();
             }
         });
