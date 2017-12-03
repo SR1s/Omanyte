@@ -24,6 +24,7 @@ import javax.xml.xpath.XPathFactory;
 import me.sr1.omanyte.OmanyteApp;
 import me.sr1.omanyte.base.util.LogUtil;
 import me.sr1.omanyte.enity.Book;
+import me.sr1.omanyte.enity.BookCatalog;
 import me.sr1.omanyte.enity.BookDetail;
 import me.sr1.omanyte.enity.Category;
 import me.sr1.omanyte.protocol.BlahMeWebSiteApi;
@@ -219,7 +220,7 @@ public class BlahMeBusiness {
         });
     }
 
-    public void loadBookDetail(String bookId, final BusinessCallback<BookDetail, String> callback) {
+    public void loadBookDetail(final String bookId, final BusinessCallback<BookDetail, String> callback) {
         mBlahMeWebSiteApi.getBookDetail(bookId).enqueue(new SimpleCallback() {
             @Override
             void onSuccess(Call<ResponseBody> call, ResponseBody body) {
@@ -235,29 +236,64 @@ public class BlahMeBusiness {
                     TagNode root = htmlCleaner.clean(body.byteStream());
 
                     Object[] descriptionDoms = root.evaluateXPath("//div[@itemprop='description']");
-                    String description = ((TagNode) descriptionDoms[0]).getText().toString().trim();
-
-                    LogUtil.i(TAG, "description: " + description);
+                    final String description = ((TagNode) descriptionDoms[0]).getText().toString().trim();
 
                     Object[] bookInfoDoms = root.evaluateXPath("//div[@id='okBookShow']");
                     TagNode bookInfoDom = (TagNode) bookInfoDoms[0];
-                    String title = bookInfoDom.getAttributeByName("data-book-title");
-                    String id = bookInfoDom.getAttributeByName("data-book-id");
+                    final String title = bookInfoDom.getAttributeByName("data-book-title");
+                    final String id = bookInfoDom.getAttributeByName("data-book-id");
 
                     Object[] authorDoms = root.evaluateXPath("//a[@itemprop='author']");
-                    String author = ((TagNode) authorDoms[0]).getText().toString().trim();
+                    final String author = ((TagNode) authorDoms[0]).getText().toString().trim();
 
-                    List<String> subjectList = new ArrayList<>();
+                    final List<String> subjectList = new ArrayList<>();
                     Object[] subjectDoms = root.evaluateXPath("//a[@itemprop='keywords']");
                     for (Object subjectDom : subjectDoms) {
                         subjectList.add(((TagNode) subjectDom).getText().toString());
                     }
 
-                    Book book = new Book(id, title, author);
-                    BookDetail bookDetail = new BookDetail(book, description, null, subjectList);
+                    mBlahMeWebSiteApi.getCatalogOfBook(bookId).enqueue(new SimpleCallback() {
+                        @Override
+                        void onSuccess(Call<ResponseBody> call, ResponseBody body) {
 
-                    LogUtil.i(TAG, "BookDetail=" + bookDetail);
-                    callback.onSuccess(bookDetail);
+                            HtmlCleaner htmlCleaner = new HtmlCleaner();
+                            try {
+                                TagNode root = htmlCleaner.clean(body.byteStream());
+
+                                List<BookCatalog> catalogList = new ArrayList<>();
+                                Object[] mainCatalogsDom = root.evaluateXPath("//li");
+                                LogUtil.i(TAG, "mainCatalogsDom: " + mainCatalogsDom.length);
+                                for (Object catalogDom : mainCatalogsDom) {
+                                    TagNode catalogNode = (TagNode) catalogDom;
+                                    Object[] catalog = catalogNode.evaluateXPath("/div/a");
+                                    String url = OmanyteApp.BASE_URL + ((TagNode) catalog[0]).getAttributeByName("href");
+                                    String title = ((TagNode) catalog[0]).getText().toString().trim();
+                                    catalogList.add(new BookCatalog(title, url, null));
+                                }
+
+                                Book book = new Book(id, title, author);
+                                BookDetail bookDetail = new BookDetail(book, description, catalogList, subjectList);
+
+                                LogUtil.i(TAG, "BookDetail=" + bookDetail);
+                                callback.onSuccess(bookDetail);
+
+                            } catch (IOException | XPatherException e) {
+                                LogUtil.w(TAG, "clean html error", e);
+                                onError(call, body, e);
+                            }
+                        }
+
+                        @Override
+                        void onError(Call<ResponseBody> call, ResponseBody body, Throwable throwable) {
+
+                            LogUtil.i(TAG, "onError: error load catalogs");
+                            Book book = new Book(id, title, author);
+                            BookDetail bookDetail = new BookDetail(book, description, null, subjectList);
+
+                            LogUtil.i(TAG, "BookDetail=" + bookDetail);
+                            callback.onSuccess(bookDetail);
+                        }
+                    });
 
                 } catch (IOException | XPatherException e) {
                     LogUtil.w(TAG, "clean html error", e);

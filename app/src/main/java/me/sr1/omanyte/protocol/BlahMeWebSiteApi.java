@@ -25,9 +25,8 @@ public interface BlahMeWebSiteApi {
     @GET("/book/{bookId}")
     Call<ResponseBody> getBookDetail(@Path("bookId") String bookId);
 
-    // todo
     @GET("/fragment/{bookId}/tocs/")
-    Call<ResponseBody> getCatalogOfBook(String bookId);
+    Call<ResponseBody> getCatalogOfBook(@Path("bookId") String bookId);
 
     // todo
     @GET("/")
