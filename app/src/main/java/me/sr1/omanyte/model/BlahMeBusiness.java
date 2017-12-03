@@ -162,6 +162,62 @@ public class BlahMeBusiness {
         });
     }
 
+    public void loadSpecifiedCategoryBooks(String categoryId, int page,
+                                           final BusinessCallback<Pair<List<Book>, Integer>, String> callback) {
+
+        mBlahMeWebSiteApi.getCategoryBooks(categoryId, page).enqueue(new SimpleCallback() {
+            @Override
+            void onSuccess(Call<ResponseBody> call, ResponseBody body) {
+
+                HtmlCleaner htmlCleaner = new HtmlCleaner();
+                CleanerProperties properties = new CleanerProperties();
+                properties.setAllowMultiWordAttributes(true);
+                properties.setAllowHtmlInsideAttributes(true);
+                properties.setAllowInvalidAttributeNames(true);
+                properties.setOmitComments(true);
+
+                try {
+                    List<Book> bookList = new ArrayList<>();
+
+                    TagNode root = htmlCleaner.clean(body.byteStream());
+                    Object[] bookItemDoms = root.evaluateXPath("//div[@class='ok-book-item']");
+                    for (Object bookItemObj : bookItemDoms) {
+                        TagNode bookItemDom = (TagNode) bookItemObj;
+
+                        TagNode authorDom = bookItemDom.findElementByAttValue("class","ok-book-author", true, true);
+                        String author = authorDom.getText().toString().trim();
+
+                        TagNode bookInfoDom = bookItemDom.findElementHavingAttribute("data-book-id", true);
+                        String id = bookInfoDom.getAttributeByName("data-book-id");
+                        String title = bookInfoDom.getAttributeByName("data-book-title");
+                        LogUtil.i(TAG, "id=" + id + ", title=" + title + ", author=" + author);
+
+                        bookList.add(new Book(id, title, author));
+                    }
+
+                    Object[] pages = root.evaluateXPath("//ul[@class='pagination ok-book-list-init']/li[last()]/a");
+                    TagNode page = (TagNode) pages[0];
+                    String pageStr = page.getAttributeByName("data-page");
+                    int total = Integer.parseInt(pageStr);
+
+                    LogUtil.i(TAG, "total page: " + total);
+
+                    callback.onSuccess(new Pair<>(bookList, total));
+
+
+                } catch (IOException | XPatherException e) {
+                    LogUtil.w(TAG, "clean html error", e);
+                    onError(call, body, e);
+                }
+            }
+
+            @Override
+            void onError(Call<ResponseBody> call, ResponseBody body, Throwable throwable) {
+                callback.onError("");
+            }
+        });
+    }
+
     private abstract static class SimpleCallback implements Callback<ResponseBody> {
 
         @Override
