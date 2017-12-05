@@ -1,4 +1,4 @@
-package me.sr1.omanyte.ui.business;
+package me.sr1.omanyte.ui.business.booklist;
 
 import android.widget.Toast;
 

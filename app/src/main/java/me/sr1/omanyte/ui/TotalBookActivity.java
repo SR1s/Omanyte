@@ -5,8 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import me.sr1.omanyte.ui.binding.BookListPageBinding;
-import me.sr1.omanyte.ui.business.TotalBookEventHandler;
-import me.sr1.omanyte.ui.business.TotalBookUiController;
+import me.sr1.omanyte.ui.business.booklist.TotalBookEventHandler;
+import me.sr1.omanyte.ui.business.booklist.TotalBookUiController;
 
 /**
  * 所有书籍页面
