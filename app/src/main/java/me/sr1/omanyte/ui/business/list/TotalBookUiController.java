@@ -1,4 +1,4 @@
-package me.sr1.omanyte.ui.business.booklist;
+package me.sr1.omanyte.ui.business.list;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

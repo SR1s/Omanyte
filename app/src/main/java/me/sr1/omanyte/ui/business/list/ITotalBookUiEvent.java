@@ -1,4 +1,4 @@
-package me.sr1.omanyte.ui.business.booklist;
+package me.sr1.omanyte.ui.business.list;
 
 import com.roalab.devkit.ui.UiEvent;
 
