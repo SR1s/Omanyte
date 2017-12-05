@@ -40,4 +40,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.2'
     // html parser
     compile 'net.sourceforge.htmlcleaner:htmlcleaner:2.21'
+    // ui toolkit
+    compile 'com.github.SR1s:DevKit:0.1.1'
 }
