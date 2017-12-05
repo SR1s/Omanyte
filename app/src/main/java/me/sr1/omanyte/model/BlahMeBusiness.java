@@ -159,7 +159,7 @@ public class BlahMeBusiness {
 
             @Override
             void onError(Call<ResponseBody> call, ResponseBody body, Throwable throwable) {
-                callback.onError("");
+                callback.onError("onError=" + throwable.getClass().getSimpleName());
             }
         });
     }

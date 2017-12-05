@@ -1,12 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.sr1.omanyte">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".OmanyteApp"
         android:icon="@mipmap/app_logo_omanyte"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.TotalBookActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
