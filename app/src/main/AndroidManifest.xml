@@ -15,5 +15,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.BookDetailActivity" />
+        <activity android:name=".ui.ReadBookActivity" />
     </application>
 </manifest>

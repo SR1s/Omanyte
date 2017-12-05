@@ -1,5 +1,8 @@
 package me.sr1.omanyte.enity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
@@ -7,7 +10,7 @@ import java.util.List;
  * @author SR1
  */
 
-public class BookCatalog {
+public class BookCatalog implements Parcelable {
 
     public final String Title;
 
@@ -21,6 +24,12 @@ public class BookCatalog {
         SubCatalogs = subCatalogs;
     }
 
+    protected BookCatalog(Parcel in) {
+        Title = in.readString();
+        Url = in.readString();
+        SubCatalogs = in.createTypedArrayList(BookCatalog.CREATOR);
+    }
+
     @Override
     public String toString() {
         return "BookCatalog{" +
@@ -29,4 +38,28 @@ public class BookCatalog {
                 ", SubCatalogs=" + SubCatalogs +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(Title);
+        parcel.writeString(Url);
+        parcel.writeList(SubCatalogs);
+    }
+
+    public static final Creator<BookCatalog> CREATOR = new Creator<BookCatalog>() {
+        @Override
+        public BookCatalog createFromParcel(Parcel in) {
+            return new BookCatalog(in);
+        }
+
+        @Override
+        public BookCatalog[] newArray(int size) {
+            return new BookCatalog[size];
+        }
+    };
 }

@@ -54,27 +54,5 @@ public class BookDetailPageBinding extends ViewBinding {
         Title.setText(bookDetail.BookInfo.Title);
         Author.setText(bookDetail.BookInfo.Author);
         Description.setText(bookDetail.Description);
-
-        final List<BookCatalog> bookCatalogs = bookDetail.Catalogs;
-
-        if (bookCatalogs == null) return;
-
-        CatalogList.setAdapter(new RecyclerView.Adapter<CatalogItemBinding>() {
-            @Override
-            public CatalogItemBinding onCreateViewHolder(ViewGroup parent, int viewType) {
-                return new CatalogItemBinding(LayoutInflater.from(parent.getContext()), parent);
-            }
-
-            @Override
-            public void onBindViewHolder(CatalogItemBinding holder, int position) {
-                BookCatalog catalog = bookCatalogs.get(position);
-                holder.setTitle(catalog.Title);
-            }
-
-            @Override
-            public int getItemCount() {
-                return bookCatalogs.size();
-            }
-        });
     }
 }
