@@ -8,6 +8,7 @@ import me.sr1.omanyte.OmanyteApp;
 import me.sr1.omanyte.enity.Book;
 import me.sr1.omanyte.model.TotalBookPagingLoader;
 import me.sr1.omanyte.model.base.PagingLoader;
+import me.sr1.omanyte.ui.BookDetailActivity;
 
 /**
  * 所有书籍页面事件处理器
@@ -44,6 +45,6 @@ public class TotalBookEventHandler implements ITotalBookUiEvent {
 
     @Override
     public void onSelectBook(Book book) {
-
+        BookDetailActivity.show(OmanyteApp.getApp(), book);
     }
 }

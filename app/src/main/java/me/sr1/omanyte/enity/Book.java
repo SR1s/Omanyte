@@ -1,5 +1,8 @@
 package me.sr1.omanyte.enity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import me.sr1.omanyte.OmanyteApp;
 
 /**
@@ -7,7 +10,7 @@ import me.sr1.omanyte.OmanyteApp;
  * @author SR1
  */
 
-public class Book {
+public class Book implements Parcelable {
 
     public final String Id;
 
@@ -19,6 +22,12 @@ public class Book {
         Id = id;
         Title = title;
         Author = author;
+    }
+
+    protected Book(Parcel in) {
+        Id = in.readString();
+        Title = in.readString();
+        Author = in.readString();
     }
 
     public String getCoverUrl() {
@@ -49,4 +58,28 @@ public class Book {
                 ", Author='" + Author + '\'' +
                 '}';
     }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(Id);
+        parcel.writeString(Title);
+        parcel.writeString(Author);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Book> CREATOR = new Creator<Book>() {
+        @Override
+        public Book createFromParcel(Parcel in) {
+            return new Book(in);
+        }
+
+        @Override
+        public Book[] newArray(int size) {
+            return new Book[size];
+        }
+    };
 }
