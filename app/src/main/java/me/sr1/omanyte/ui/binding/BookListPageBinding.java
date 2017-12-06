@@ -1,5 +1,6 @@
 package me.sr1.omanyte.ui.binding;
 
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,10 +24,8 @@ public class BookListPageBinding extends ViewBinding {
 
         BookList = $(R.id.book_list);
 
-        BookList.setLayoutManager(new LinearLayoutManager(
-                BookList.getContext(),
-                LinearLayoutManager.VERTICAL,
-                false
+        BookList.setLayoutManager(new GridLayoutManager(
+                BookList.getContext(),3
         ));
     }
 }
