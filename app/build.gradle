@@ -43,5 +43,10 @@ dependencies {
     compile 'net.sourceforge.htmlcleaner:htmlcleaner:2.21'
     // ui toolkit
     compile 'com.github.SR1s:DevKit:0.1.1'
+    // image loader
     implementation 'com.github.bumptech.glide:glide:4.4.0'
+    // persistence framework
+    def roomVersion = "1.0.0"
+    implementation "android.arch.persistence.room:runtime:${roomVersion}"
+    annotationProcessor "android.arch.persistence.room:compiler:${roomVersion}"
 }
