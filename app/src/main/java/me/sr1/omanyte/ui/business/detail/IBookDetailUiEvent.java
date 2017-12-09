@@ -1,6 +1,6 @@
 package me.sr1.omanyte.ui.business.detail;
 
-import com.roalab.devkit.ui.UiEvent;
+import com.roslab.devkit.ui.UiEvent;
 
 import me.sr1.omanyte.enity.BookCatalog;
 

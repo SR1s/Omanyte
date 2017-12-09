@@ -5,11 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.roalab.devkit.ui.UiController;
+import com.roslab.devkit.ui.UiController;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import me.sr1.omanyte.base.util.LogUtil;
 import me.sr1.omanyte.enity.Book;
 import me.sr1.omanyte.ui.binding.BookItemBinding;
 import me.sr1.omanyte.ui.binding.BookListPageBinding;
@@ -21,6 +22,8 @@ import me.sr1.omanyte.ui.binding.BookListPageBinding;
 
 public class TotalBookUiController extends UiController<ITotalBookUiEvent, ITotalBookUiOperation>
         implements ITotalBookUiOperation {
+
+    private static final String TAG = "TotalBookUiController";
 
     private final BookListPageBinding mBinding;
 
@@ -37,6 +40,7 @@ public class TotalBookUiController extends UiController<ITotalBookUiEvent, ITota
 
     @Override
     public void updateBookList(List<Book> bookList) {
+        LogUtil.i(TAG, "updateBookList: size:" + (bookList == null ? 0 : bookList.size()));
         mBookItemAdapter.updateBooks(bookList);
     }
 

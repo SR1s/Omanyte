@@ -4,7 +4,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.roalab.devkit.ui.ViewBinding;
+import com.roslab.devkit.ui.ViewBinding;
 
 import me.sr1.omanyte.R;
 

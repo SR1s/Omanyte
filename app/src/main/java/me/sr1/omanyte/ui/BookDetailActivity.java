@@ -45,7 +45,7 @@ public class BookDetailActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         mEventHandler = new BookDetailEventHandler(new BookDetailUiController(binding));
-        mEventHandler.loadBookDetail(getArguments().mBook);
+        mEventHandler.initWithCache(getArguments().mBook);
     }
 
     private Arguments getArguments() {

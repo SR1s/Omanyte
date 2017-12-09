@@ -1,6 +1,6 @@
 package me.sr1.omanyte.ui.business.read;
 
-import com.roalab.devkit.ui.UiController;
+import com.roslab.devkit.ui.UiController;
 
 import me.sr1.omanyte.enity.BookCatalog;
 import me.sr1.omanyte.ui.binding.ReadBookPageBinding;

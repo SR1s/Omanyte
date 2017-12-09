@@ -1,6 +1,6 @@
 package me.sr1.omanyte.ui.business.detail;
 
-import com.roalab.devkit.ui.UiOperation;
+import com.roslab.devkit.ui.UiOperation;
 
 import me.sr1.omanyte.enity.BookDetail;
 
@@ -11,5 +11,5 @@ import me.sr1.omanyte.enity.BookDetail;
 
 public interface IBookDetailUiOperation extends UiOperation {
 
-    public void updateDetail(BookDetail detail);
+    void updateDetail(BookDetail detail);
 }

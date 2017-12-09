@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.roalab.devkit.ui.UiController;
+import com.roslab.devkit.ui.UiController;
 
 import java.util.List;
 

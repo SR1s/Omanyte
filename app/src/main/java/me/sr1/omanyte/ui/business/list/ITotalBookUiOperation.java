@@ -1,6 +1,6 @@
 package me.sr1.omanyte.ui.business.list;
 
-import com.roalab.devkit.ui.UiOperation;
+import com.roslab.devkit.ui.UiOperation;
 
 import java.util.List;
 

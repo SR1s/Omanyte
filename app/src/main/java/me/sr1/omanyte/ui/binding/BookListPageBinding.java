@@ -1,12 +1,11 @@
 package me.sr1.omanyte.ui.binding;
 
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.roalab.devkit.ui.ViewBinding;
+import com.roslab.devkit.ui.ViewBinding;
 
 import me.sr1.omanyte.R;
 

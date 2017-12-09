@@ -24,6 +24,6 @@ public class TotalBookActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         mEventHandler = new TotalBookEventHandler(new TotalBookUiController(binding));
-        mEventHandler.onLoadMore();
+        mEventHandler.initWithCache();
     }
 }
