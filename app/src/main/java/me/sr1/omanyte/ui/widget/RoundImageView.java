@@ -14,6 +14,10 @@ import android.util.Log;
 
 /**
  * 圆角展示的ImageView
+ * [√] 圆角
+ * [√] padding纳入考虑
+ * [-] todo 圆角加入配置
+ * [-] todo 圆角增加边线的绘制
  * @author SR1
  */
 
@@ -79,34 +83,56 @@ public class RoundImageView extends AppCompatImageView {
     }
 
     private void updateMaskPath(int width, int height) {
+        int paddingLeft = getPaddingLeft();
+        int paddingRight = getPaddingRight();
+        int paddingTop = getPaddingTop();
+        int paddingBottom = getPaddingBottom();
+
         Path path = new Path();
 
         // top left corner
-        path.moveTo(0, mTopLeftRadius);
-        path.lineTo(0, 0);
-        path.lineTo(mTopLeftRadius, 0);
-        path.arcTo(new RectF(0, 0, mTopLeftRadius * 2, mTopLeftRadius * 2), -90, -90);
+        path.moveTo(0 + paddingLeft, mTopLeftRadius + paddingTop);
+        path.lineTo(0 + paddingLeft, 0 + paddingTop);
+        path.lineTo(mTopLeftRadius + paddingLeft, 0 + paddingTop);
+        path.arcTo(new RectF(0 + paddingLeft, 0 + paddingTop, mTopLeftRadius * 2 + paddingLeft, mTopLeftRadius * 2 + paddingTop), -90, -90);
         path.close();
 
         // top right corner
-        path.moveTo(width, mTopRightRadius);
-        path.lineTo(width, 0);
-        path.lineTo(width - mTopRightRadius, 0);
-        path.arcTo(new RectF(width - mTopRightRadius * 2, 0, width, 0 + mTopRightRadius * 2), -90, 90);
+        path.moveTo(width - paddingRight, mTopRightRadius + paddingTop);
+        path.lineTo(width - paddingRight, 0 + paddingTop);
+        path.lineTo(width - mTopRightRadius - paddingRight, 0 + paddingTop);
+        path.arcTo(
+                new RectF(
+                        width - mTopRightRadius * 2 - paddingRight, 0 + paddingTop,
+                        width - paddingRight, 0 + mTopRightRadius * 2 + paddingTop
+                ),
+                -90, 90
+        );
         path.close();
 
         // bottom left corner
-        path.moveTo(0, height - mBottomLeftRadius);
-        path.lineTo(0, height);
-        path.lineTo(mBottomLeftRadius, height);
-        path.arcTo(new RectF(0, height - mBottomLeftRadius * 2, mBottomLeftRadius * 2, height), 90, 90);
+        path.moveTo(0 + paddingLeft, height - mBottomLeftRadius - paddingBottom);
+        path.lineTo(0 + paddingLeft, height - paddingBottom);
+        path.lineTo(mBottomLeftRadius + paddingLeft, height - paddingBottom);
+        path.arcTo(
+                new RectF(
+                        0 + paddingLeft, height - mBottomLeftRadius * 2 - paddingBottom,
+                        mBottomLeftRadius * 2 + paddingLeft, height - paddingBottom
+                ),
+                90, 90
+        );
         path.close();
 
         // bottom right corner
-        path.moveTo(width - mBottomRightRadius, height);
-        path.lineTo(width, height);
-        path.lineTo(width, height - mBottomRightRadius);
-        path.arcTo(new RectF(width - mBottomRightRadius * 2, height - mBottomRightRadius * 2, width, height), -0, 90);
+        path.moveTo(width - mBottomRightRadius - paddingRight, height - paddingBottom);
+        path.lineTo(width - paddingRight, height - paddingBottom);
+        path.lineTo(width - paddingRight, height - mBottomRightRadius - paddingBottom);
+        path.arcTo(
+                new RectF(
+                        width - mBottomRightRadius * 2 - paddingRight, height - mBottomRightRadius * 2 - paddingBottom,
+                        width - paddingRight, height - paddingBottom
+                ),
+                -0, 90);
         path.close();
 
         mMaskPath = path;
