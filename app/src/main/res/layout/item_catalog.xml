@@ -2,9 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/content_bg"
     android:orientation="vertical">
     <TextView
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:id="@+id/catalog_title"
+        android:textColor="@color/text_big"
+        android:textSize="14sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    <View
+        android:id="@+id/catalog_divider"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="#a1a1a1"
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp" />
 </LinearLayout>
