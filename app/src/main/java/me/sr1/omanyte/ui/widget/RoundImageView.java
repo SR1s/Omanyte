@@ -1,6 +1,7 @@
 package me.sr1.omanyte.ui.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -12,11 +13,13 @@ import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import me.sr1.omanyte.R;
+
 /**
  * 圆角展示的ImageView
  * [√] 圆角
  * [√] padding纳入考虑
- * [-] todo 圆角加入配置
+ * [√] 圆角加入配置
  * [-] todo 圆角增加边线的绘制
  * @author SR1
  */
@@ -45,7 +48,19 @@ public class RoundImageView extends AppCompatImageView {
     public RoundImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        mTopLeftRadius = mTopRightRadius = mBottomLeftRadius = mBottomRightRadius = 10;
+        if (attrs != null) {
+            TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RoundImageView);
+
+            int radius = typedArray.getDimensionPixelOffset(R.styleable.RoundImageView_cornerRadius, 0);
+
+            mTopLeftRadius = typedArray.getDimensionPixelSize(R.styleable.RoundImageView_cornerRadiusTopLeft, radius);
+            mTopRightRadius = typedArray.getDimensionPixelSize(R.styleable.RoundImageView_cornerRadiusTopRight, radius);
+            mBottomLeftRadius = typedArray.getDimensionPixelSize(R.styleable.RoundImageView_cornerRadiusBottomLeft, radius);
+            mBottomRightRadius = typedArray.getDimensionPixelSize(R.styleable.RoundImageView_cornerRadiusBottomRight, radius);
+
+            typedArray.recycle();
+        }
+
         init();
     }
 
@@ -60,7 +75,6 @@ public class RoundImageView extends AppCompatImageView {
         super.onDraw(canvas);
 
         // 把显示区域裁剪成出圆角
-        // todo 这里需要补上padding的情况
         Path maskPath = mMaskPath;
         if (maskPath != null) {
             canvas.drawPath(maskPath, mMaskPaint);
