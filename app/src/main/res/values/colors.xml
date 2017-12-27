@@ -7,4 +7,5 @@
     <color name="text_big">#202020</color>
     <color name="text_normal">#5c5c5c</color>
     <color name="text_small">#a1a1a1</color>
+    <color name="content_bg">#ffffff</color>
 </resources>

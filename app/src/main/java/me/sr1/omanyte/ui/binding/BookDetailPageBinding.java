@@ -4,13 +4,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.roslab.devkit.ui.ViewBinding;
 
+import java.util.List;
+
 import me.sr1.omanyte.R;
+import me.sr1.omanyte.enity.BookCatalog;
 import me.sr1.omanyte.enity.BookDetail;
 
 /**
@@ -20,36 +20,45 @@ import me.sr1.omanyte.enity.BookDetail;
 
 public class BookDetailPageBinding extends ViewBinding {
 
-    public final ImageView Cover;
-
-    public final TextView Title;
-
-    public final TextView Author;
-
-    public final TextView Description;
-
-    public final RecyclerView CatalogList;
+    public final RecyclerView ContainerList;
 
     public BookDetailPageBinding(LayoutInflater inflater, ViewGroup parent) {
         super(inflater, parent, R.layout.page_book_detail);
 
-        Cover = $(R.id.book_cover);
-        Title = $(R.id.book_title);
-        Author = $(R.id.book_author);
-        Description = $(R.id.book_description);
-        CatalogList = $(R.id.book_catalog_list);
+        ContainerList = $(R.id.container_list);
 
-        CatalogList.setLayoutManager(new LinearLayoutManager(
-                CatalogList.getContext(),
+        ContainerList.setLayoutManager(new LinearLayoutManager(
+                ContainerList.getContext(),
                 LinearLayoutManager.VERTICAL,
                 false
         ));
     }
 
-    public void setBookDetail(BookDetail bookDetail) {
-        Glide.with(Cover).load(bookDetail.BookInfo.getCoverUrl()).into(Cover);
-        Title.setText(bookDetail.BookInfo.Title);
-        Author.setText(bookDetail.BookInfo.Author);
-        Description.setText(bookDetail.Description);
+    public void setBookDetail(final BookDetail bookDetail) {
+        if (bookDetail == null) {
+            ContainerList.setAdapter(null);
+            return;
+        }
+
+        ContainerList.setAdapter(new RecyclerView.Adapter<BookDetailInfoBinding>() {
+            @Override
+            public BookDetailInfoBinding onCreateViewHolder(ViewGroup parent, int viewType) {
+                return new BookDetailInfoBinding(LayoutInflater.from(parent.getContext()), parent);
+            }
+
+            @Override
+            public void onBindViewHolder(BookDetailInfoBinding holder, int position) {
+                holder.setBookDetail(bookDetail);
+            }
+
+            @Override
+            public int getItemCount() {
+                return 1;
+            }
+        });
+    }
+
+    public void setCatalog(List<BookCatalog> bookCatalogs) {
+
     }
 }
