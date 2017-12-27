@@ -24,6 +24,7 @@
             <me.sr1.omanyte.ui.widget.RoundImageView
                 android:id="@+id/book_cover"
                 app:cornerRadius="5dp"
+                android:scaleType="centerCrop"
                 android:layout_alignParentBottom="true"
                 android:layout_marginTop="10dp"
                 android:layout_centerHorizontal="true"
