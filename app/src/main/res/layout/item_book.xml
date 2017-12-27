@@ -7,10 +7,10 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <ImageView
+    <me.sr1.omanyte.ui.widget.RoundImageView
         android:id="@+id/book_cover"
-        android:layout_width="90dp"
-        android:layout_height="126dp"
+        android:layout_width="88dp"
+        android:layout_height="117dp"
         android:scaleType="centerCrop" />
 
     <TextView
