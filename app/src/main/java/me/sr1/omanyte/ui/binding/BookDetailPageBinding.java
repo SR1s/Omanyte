@@ -93,6 +93,10 @@ public class BookDetailPageBinding extends ViewBinding {
 
     }
 
+    /**
+     * 组合Adapter的Adapter
+     * [x] todo 内层adapter notifyDataSetChanged 通知外层
+     */
     private static class CombineAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         private List<RecyclerView.Adapter<RecyclerView.ViewHolder>> mAdapters = new ArrayList<>();

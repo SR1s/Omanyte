@@ -20,6 +20,7 @@ import me.sr1.omanyte.R;
  * [√] 圆角
  * [√] padding纳入考虑
  * [√] 圆角加入配置
+ * [-] todo 宽高监听有误
  * [-] todo 圆角增加边线的绘制
  * @author SR1
  */
@@ -58,6 +59,7 @@ public class RoundImageView extends AppCompatImageView {
             mBottomLeftRadius = typedArray.getDimensionPixelSize(R.styleable.RoundImageView_cornerRadiusBottomLeft, radius);
             mBottomRightRadius = typedArray.getDimensionPixelSize(R.styleable.RoundImageView_cornerRadiusBottomRight, radius);
 
+            Log.e(TAG, "radius: { " + mTopLeftRadius + ", " + mTopRightRadius + ", " + mBottomLeftRadius + ", " + mBottomRightRadius + "}");
             typedArray.recycle();
         }
 
