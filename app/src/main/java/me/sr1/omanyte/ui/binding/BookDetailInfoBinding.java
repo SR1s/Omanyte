@@ -45,10 +45,17 @@ public class BookDetailInfoBinding extends ViewBinding {
         Author.setText(bookDetail.BookInfo.Author);
         Description.setText(bookDetail.Description);
 
-        if (bookDetail.Catalogs == null || bookDetail.Catalogs.isEmpty()) {
+        if (bookDetail.Subjects == null || bookDetail.Subjects.isEmpty()) {
             LabelLayout.setVisibility(View.GONE);
         } else {
             LabelLayout.setVisibility(View.VISIBLE);
+            LabelLayout.removeAllViews();
+            LayoutInflater inflater = LayoutInflater.from(LabelLayout.getContext());
+            for (String subject : bookDetail.Subjects) {
+                TextView label = (TextView) inflater.inflate(R.layout.item_label, LabelLayout, false);
+                label.setText(subject);
+                LabelLayout.addView(label);
+            }
         }
     }
 }
