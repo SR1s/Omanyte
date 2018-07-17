@@ -107,32 +107,32 @@ public class RoundImageView extends AppCompatImageView {
         Path path = new Path();
 
         // top left corner
-        path.moveTo(0 + paddingLeft, mTopLeftRadius + paddingTop);
-        path.lineTo(0 + paddingLeft, 0 + paddingTop);
-        path.lineTo(mTopLeftRadius + paddingLeft, 0 + paddingTop);
-        path.arcTo(new RectF(0 + paddingLeft, 0 + paddingTop, mTopLeftRadius * 2 + paddingLeft, mTopLeftRadius * 2 + paddingTop), -90, -90);
+        path.moveTo(/* 0 + */paddingLeft, mTopLeftRadius + paddingTop);
+        path.lineTo(/* 0 + */paddingLeft, /* 0 + */paddingTop);
+        path.lineTo(mTopLeftRadius + paddingLeft, /* 0 + */paddingTop);
+        path.arcTo(new RectF(/* 0 + */paddingLeft, /* 0 + */paddingTop, mTopLeftRadius * 2 + paddingLeft, mTopLeftRadius * 2 + paddingTop), -90, -90);
         path.close();
 
         // top right corner
         path.moveTo(width - paddingRight, mTopRightRadius + paddingTop);
-        path.lineTo(width - paddingRight, 0 + paddingTop);
-        path.lineTo(width - mTopRightRadius - paddingRight, 0 + paddingTop);
+        path.lineTo(width - paddingRight, /* 0 + */paddingTop);
+        path.lineTo(width - mTopRightRadius - paddingRight, /* 0 + */paddingTop);
         path.arcTo(
                 new RectF(
-                        width - mTopRightRadius * 2 - paddingRight, 0 + paddingTop,
-                        width - paddingRight, 0 + mTopRightRadius * 2 + paddingTop
+                        width - mTopRightRadius * 2 - paddingRight, /* 0 + */paddingTop,
+                        width - paddingRight, /* 0 + */mTopRightRadius * 2 + paddingTop
                 ),
                 -90, 90
         );
         path.close();
 
         // bottom left corner
-        path.moveTo(0 + paddingLeft, height - mBottomLeftRadius - paddingBottom);
-        path.lineTo(0 + paddingLeft, height - paddingBottom);
+        path.moveTo(/* 0 + */paddingLeft, height - mBottomLeftRadius - paddingBottom);
+        path.lineTo(/* 0 + */paddingLeft, height - paddingBottom);
         path.lineTo(mBottomLeftRadius + paddingLeft, height - paddingBottom);
         path.arcTo(
                 new RectF(
-                        0 + paddingLeft, height - mBottomLeftRadius * 2 - paddingBottom,
+                        /* 0 + */paddingLeft, height - mBottomLeftRadius * 2 - paddingBottom,
                         mBottomLeftRadius * 2 + paddingLeft, height - paddingBottom
                 ),
                 90, 90
